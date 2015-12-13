@@ -49,3 +49,5 @@ createAction('FILETER_ASYNC', resultFiltered);
 
 - [ ] what/why futures?
 - [ ] more tests
+- [ ] add build script
+- [ ] publish

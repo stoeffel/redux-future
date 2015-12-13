@@ -48,5 +48,3 @@ filterAction(resultFiltered);
 ## TODOS
 
 - [ ] what/why futures?
-- [ ] more tests (FSA, with other middleware)
-- [ ] add build script

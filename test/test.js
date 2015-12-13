@@ -25,6 +25,10 @@ describe('redux-future', () => {
         return { ... state
                , filtered: action.result
                };
+      case 'FILTER_NUMBERS':
+        return { ... state
+               , filtered: action.numbers
+               };
       default:
         return state
       }
@@ -57,9 +61,26 @@ describe('redux-future', () => {
     });
     const result = new Future((reject, resolve) =>
       resolve([1, 2, 3, 4, 5, 6]));
- 
-    const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2] 
- 
+
+    const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2]
+
     store.dispatch({ type: 'FILTER', future: resultFiltered });
+  });
+
+  it('should work with a future', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filtered).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      resolve([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.map(
+      R.compose(
+        R.assoc('numbers', R.__, {})
+      , R.filter(R.gt(3))
+      )); // will hold [1, 2]
+
+    store.dispatch({ type: 'FILTER_NUMBERS', future: resultFiltered });
   });
 });

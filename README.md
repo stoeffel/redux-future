@@ -48,6 +48,6 @@ createAction('FILETER_ASYNC', resultFiltered);
 ## TODOS
 
 - [ ] what/why futures?
-- [ ] more tests
+- [ ] more tests (FSA, with other middleware)
 - [ ] add build script
 - [ ] publish

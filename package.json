@@ -1,10 +1,15 @@
 {
   "name": "redux-future",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "FSA-compliant future monad middleware for redux",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-core/register"
+    "test": "mocha --require babel-core/register",
+    "prepublish": "npm run transpile",
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "minor-release": "npm version minor && npm publish && git push --follow-tags",
+    "major-release": "npm version major && npm publish && git push --follow-tags",
+    "transpile": "babel src --out-dir ."
   },
   "repository": {
     "type": "git",

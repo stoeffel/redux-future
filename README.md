@@ -18,14 +18,13 @@ npm install --save redux-future
 import futureMiddleware from 'redux-future';
 ```
 
-The default export is a middleware function. If it receives a future, it will dispatch the resolved value of the future. It will not dispatch anything if the future rejects.
+The default export is a middleware function. If it receives a future (in a `future` or `payload` propterty), it will dispatch the resolved value of the future (after forking the future). It will dispatch the error if one occures.
 
-If it receives an Flux Standard Action whose `payload` is a future, it will either
+If it receives an Flux Standard Action whose `payload` is a future, it will `fork` and then either
 
 - dispatch a copy of the action with the resolved value of the future, and set `status` to `success`.
 - dispatch a copy of the action with the rejected value of the future, and set `status` to `error`.
 
-The middleware returns a future to the caller so that it can wait for the operation to finish before continuing. This is especially useful for server-side rendering. If you find that a future is not being returned, ensure that all middleware before it in the chain is also returning its `next()` call to the caller.
 
 ## Using in combination with redux-actions
 
@@ -42,7 +41,10 @@ const result = new Future((reject, resolve) =>
 
 const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2]
 
-createAction('FILETER_ASYNC', resultFiltered);
+createAction('FILTER_ASYNC', () => resultFiltered);
+// or
+const filterAction = createAction('FILTER_ASYNC');
+filterAction(resultFiltered);
 ```
 
 ## TODOS
@@ -50,4 +52,3 @@ createAction('FILETER_ASYNC', resultFiltered);
 - [ ] what/why futures?
 - [ ] more tests (FSA, with other middleware)
 - [ ] add build script
-- [ ] publish

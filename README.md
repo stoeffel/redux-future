@@ -30,9 +30,7 @@ If it receives an Flux Standard Action whose `payload` is a future, it will `for
 
 Because it supports FSA actions, you can use redux-future in combination with [redux-actions](https://github.com/acdlite/redux-actions).
 
-### Example: Async action creators
-
-This works just like in Flummox:
+### Example: Action creators
 
 ```js
 const result = new Future((reject, resolve) =>

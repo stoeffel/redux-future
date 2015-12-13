@@ -44,3 +44,8 @@ const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2]
 
 createAction('FILETER_ASYNC', resultFiltered);
 ```
+
+## TODOS
+
+- [ ] what/why futures?
+- [ ] more tests

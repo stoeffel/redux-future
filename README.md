@@ -6,6 +6,8 @@ redux-future
 
 [FSA](https://github.com/acdlite/flux-standard-action)-compliant future monad [middleware](https://github.com/gaearon/redux/blob/master/docs/middleware.md) for Redux.
 
+This is based on [redux-promise](https://github.com/acdlite/redux-promise).
+
 ```js
 npm install --save redux-future
 ```

@@ -1,5 +1,6 @@
 import expect from 'expect';
 import { createStore, applyMiddleware } from 'redux';
+import { createAction } from 'redux-actions';
 import Future from 'data.task';
 import R from 'ramda';
 
@@ -13,6 +14,7 @@ describe('redux-future', () => {
     const initialState =
       { counter: 0
       , filtered: []
+      , filteredFSA: []
       };
 
     function counter(state = initialState, action) {
@@ -28,6 +30,10 @@ describe('redux-future', () => {
       case 'FILTER_NUMBERS':
         return { ... state
                , filtered: action.numbers
+               };
+      case 'FILTER_NUMBERS_FSA':
+        return { ... state
+               , filteredFSA: action.payload
                };
       default:
         return state
@@ -82,5 +88,20 @@ describe('redux-future', () => {
       )); // will hold [1, 2]
 
     store.dispatch({ type: 'FILTER_NUMBERS', future: resultFiltered });
+  });
+
+  it('should work with a FSA', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filteredFSA).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      resolve([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2]
+
+    const filterNumbers = createAction('FILTER_NUMBERS_FSA', () => resultFiltered);
+
+    store.dispatch(filterNumbers());
   });
 });

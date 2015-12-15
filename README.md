@@ -26,6 +26,21 @@ If it receives an Flux Standard Action whose `payload` is a future, it will `for
 - dispatch a copy of the action with the rejected value of the future, and set `status` to `error`.
 
 
+### Example
+
+```js
+const result = new Future((reject, resolve) =>
+  resolve([1, 2, 3, 4, 5, 6]));
+
+const resultFiltered = result.map(
+  R.compose(
+    R.assoc('numbers', R.__, { type: 'FILTER_NUMBERS' })
+  , R.filter(R.gt(3))
+  )); // will hold [1, 2]
+
+store.dispatch(resultFiltered);
+```
+
 ## Using in combination with redux-actions
 
 Because it supports FSA actions, you can use redux-future in combination with [redux-actions](https://github.com/acdlite/redux-actions).

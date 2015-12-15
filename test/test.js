@@ -25,7 +25,7 @@ describe('redux-future', () => {
                };
       case 'FILTER':
         return { ... state
-               , filtered: action.result
+               , filtered: action.numbers
                };
       case 'FILTER_NUMBERS':
         return { ... state
@@ -66,11 +66,9 @@ describe('redux-future', () => {
       done();
     });
     const result = new Future((reject, resolve) =>
-      resolve([1, 2, 3, 4, 5, 6]));
+      resolve({ type: 'FILTER', numbers: [1, 2] }));
 
-    const resultFiltered = result.map(R.filter(R.gt(3))); // will hold [1, 2]
-
-    store.dispatch({ type: 'FILTER', future: resultFiltered });
+    store.dispatch(result);
   });
 
   it('should work with a future', done => {
@@ -83,11 +81,11 @@ describe('redux-future', () => {
 
     const resultFiltered = result.map(
       R.compose(
-        R.assoc('numbers', R.__, {})
+        R.assoc('numbers', R.__, { type: 'FILTER_NUMBERS' })
       , R.filter(R.gt(3))
       )); // will hold [1, 2]
 
-    store.dispatch({ type: 'FILTER_NUMBERS', future: resultFiltered });
+    store.dispatch(resultFiltered);
   });
 
   it('should work with a FSA', done => {

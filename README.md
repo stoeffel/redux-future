@@ -18,7 +18,7 @@ npm install --save redux-future
 import futureMiddleware from 'redux-future';
 ```
 
-The default export is a middleware function. If it receives a future (in a `future` or `payload` propterty), it will dispatch the resolved value of the future (after forking the future). It will dispatch the error if one occures.
+The default export is a middleware function. If it receives a future, it will dispatch the resolved value of the future (after forking the future). It will dispatch the error if one occures.
 
 If it receives an Flux Standard Action whose `payload` is a future, it will `fork` and then either
 

@@ -1,6 +1,5 @@
 import { isFSA } from 'flux-standard-action';
 
-const isObject = (value) => (value && typeof value === 'object' && (value.__proto__ == null || value.__proto__ === Object.prototype));
 
 
 function isFuture(val) {
@@ -10,14 +9,10 @@ function isFuture(val) {
 export default function futureMiddleware({ dispatch }) {
   return next => action => {
     if (!isFSA(action)) {
-      return isFuture(action.future)
-        ? action.future.fork(
-            error => dispatch({ ...action, ...error })
-          , result => {
-              const resultObj = isObject(result)? result: {result: result};
-              delete action.future;
-              dispatch({ ...action, ...resultObj })
-            }
+      return isFuture(action)
+        ? action.fork(
+            error => error.type? dispatch(error): next(action)
+          , dispatch
           )
         : next(action);
     }

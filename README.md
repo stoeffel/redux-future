@@ -60,6 +60,6 @@ const filterAction = createAction('FILTER_ASYNC');
 filterAction(resultFiltered);
 ```
 
-## TODOS
+## Related
 
-- [ ] what/why futures?
+* [futurize](https://github.com/stoeffel/futurize) - Turn callback-style functions or promises into futures

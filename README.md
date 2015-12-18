@@ -62,4 +62,12 @@ filterAction(resultFiltered);
 
 ## Related
 
+### Resources
+
+* [A Monad in Practicality: Controlling Time](http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html)
+
+### Libraries
+
+* [folktale data.task](https://github.com/folktale/data.task)
+* [ramda-fantasy](https://github.com/ramda/ramda-fantasy)
 * [futurize](https://github.com/stoeffel/futurize) - Turn callback-style functions or promises into futures

@@ -70,4 +70,5 @@ filterAction(resultFiltered);
 
 * [folktale data.task](https://github.com/folktale/data.task)
 * [ramda-fantasy](https://github.com/ramda/ramda-fantasy)
+* [fantasy-future](https://github.com/jsanchesleao/fantasy-future)
 * [futurize](https://github.com/stoeffel/futurize) - Turn callback-style functions or promises into futures

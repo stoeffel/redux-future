@@ -64,7 +64,10 @@ filterAction(resultFiltered);
 
 ### Resources
 
+Don't know what a future is? Read the following blog post or watch the video.
+
 * [A Monad in Practicality: Controlling Time](http://robotlolita.me/2014/03/20/a-monad-in-practicality-controlling-time.html)
+* [Monad a day 2: Future](https://vimeo.com/106008027)
 
 ### Libraries
 

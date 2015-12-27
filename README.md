@@ -60,6 +60,22 @@ const filterAction = createAction('FILTER_ASYNC');
 filterAction(resultFiltered);
 ```
 
+### Example: Future(IO)
+
+You can use `redux-future` together with [`redux-io`](https://github.com/stoeffel/redux-io).
+
+```js
+const futureIo = new Future((rej, res) => {
+  const io = IO(() => location.href);
+
+  setTimeout(() => res(io), 2000);
+});
+
+const action = createAction('FSA_ACTION');
+store.dispatch(action(futureIo));
+```
+
+
 ## Related
 
 ### Resources

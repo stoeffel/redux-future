@@ -65,6 +65,7 @@ filterAction(resultFiltered);
 You can use `redux-future` together with [`redux-io`](https://github.com/stoeffel/redux-io).
 
 ```js
+// futureIo :: Future(IO(String))
 const futureIo = new Future((rej, res) => {
   const io = IO(() => location.href);
 

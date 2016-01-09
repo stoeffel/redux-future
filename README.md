@@ -92,3 +92,5 @@ Don't know what a future is? Read the following blog post or watch the video.
 * [ramda-fantasy](https://github.com/ramda/ramda-fantasy)
 * [fantasy-future](https://github.com/jsanchesleao/fantasy-future)
 * [futurize](https://github.com/stoeffel/futurize) - Turn callback-style functions or promises into futures
+* [redux-io](https://github.com/stoeffel/redux-io) - FSA-compliant IO monad middleware for redux
+* [redux-either](https://github.com/stoeffel/redux-either) - FSA-compliant Either monad middleware for redux

@@ -22,7 +22,7 @@ The default export is a middleware function. If it receives a future, it will di
 
 If it receives an Flux Standard Action whose `payload` is a future, it will `fork` and then either
 
-- dispatch a copy of the action with the resolved value of the future, and set `status` to `success`.
+- dispatch a copy of the action with the resolved value of the future.
 - dispatch a copy of the action with the rejected value of the future, and set `status` to `error`.
 
 

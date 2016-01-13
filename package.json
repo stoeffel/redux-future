@@ -1,6 +1,6 @@
 {
   "name": "redux-future",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "FSA-compliant future monad middleware for redux",
   "main": "index.js",
   "scripts": {

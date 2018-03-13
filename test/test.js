@@ -34,22 +34,47 @@ describe('redux-future', () => {
         return { ... state
                , filtered: action.numbers
                };
+       case 'FILTER_NUMBERS_REJECTED':
+        return { ... state
+               , filteredRejected: action.numbers
+               };
       case 'FILTER_NUMBERS_FSA':
         return { ... state
                , filteredFSA: action.payload
                };
+      case 'FILTER_NUMBERS_FSA_REJECTED':
+        return { ... state
+               , filteredFSARejected: action.payload
+               };
       case 'FUTURE_IO':
         return { ... state
                , futureIo: action.payload
+               };
+      case 'FILTER_NUMBERS_CUSTOM':
+        return { ... state
+               , filteredCustom: action.numbers
+               };
+      case 'FILTER_NUMBERS_CUSTOM_REJECTED':
+        return { ... state
+               , filteredCustomRejected: action.numbers
                };
       default:
         return state
       }
     }
 
+    const customMiddleWare = () => next => action => {
+      if (action.customType != null) {
+        next(R.merge(action, { type: action.customType }))
+      } else {
+        next(action)
+      }
+    }
+
     const createStoreWithMiddleware = applyMiddleware(
       ioMiddleware('runIO')
     , futureMiddleware
+    , customMiddleWare
     )(createStore)
 
     store = createStoreWithMiddleware(counter);
@@ -96,6 +121,23 @@ describe('redux-future', () => {
     store.dispatch(resultFiltered);
   });
 
+  it('should work with a rejected future', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filteredRejected).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      reject([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.bimap(
+      R.compose(
+        R.assoc('numbers', R.__, { type: 'FILTER_NUMBERS_REJECTED' })
+      , R.filter(R.gt(3))
+    , R.identity)); // will hold [1, 2]
+
+    store.dispatch(resultFiltered);
+  });
+
   it('should work with a FSA', done => {
     unsubscribe = store.subscribe(() => {
       expect(store.getState().filteredFSA).toEqual([1, 2]);
@@ -109,6 +151,55 @@ describe('redux-future', () => {
     const filterNumbers = createAction('FILTER_NUMBERS_FSA', () => resultFiltered);
 
     store.dispatch(filterNumbers());
+  });
+
+  it('should work with a rejected FSA', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filteredFSARejected).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      reject([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.bimap(R.filter(R.gt(3)), R.identity); // will hold [1, 2]
+
+    const filterNumbers = createAction('FILTER_NUMBERS_FSA_REJECTED', () => resultFiltered);
+
+    store.dispatch(filterNumbers());
+  });
+
+  it('should work with a future with custom middleware', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filteredCustom).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      resolve([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.map(
+      R.compose(
+        R.assoc('numbers', R.__, { customType: 'FILTER_NUMBERS_CUSTOM' })
+      , R.filter(R.gt(3))
+      )); // will hold [1, 2]
+
+    store.dispatch(resultFiltered);
+  });
+
+  it('should work with a rejected future with custom middleware', done => {
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().filteredCustomRejected).toEqual([1, 2]);
+      done();
+    });
+    const result = new Future((reject, resolve) =>
+      reject([1, 2, 3, 4, 5, 6]));
+
+    const resultFiltered = result.bimap(
+      R.compose(
+        R.assoc('numbers', R.__, { customType: 'FILTER_NUMBERS_CUSTOM_REJECTED' })
+      , R.filter(R.gt(3))
+    , R.identity)); // will hold [1, 2]
+
+    store.dispatch(resultFiltered);
   });
 
   it('should work together with IOs', done => {

@@ -11,7 +11,7 @@ export default function futureMiddleware({ dispatch }) {
     if (!isFSA(action)) {
       return isFuture(action)
         ? action.fork(
-            error => error.type? dispatch(error): next(action)
+            dispatch
           , dispatch
           )
         : next(action);

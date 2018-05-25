@@ -12,7 +12,7 @@ import futureMiddleware from '../src';
 describe('redux-future', () => {
   let store, unsubscribe;
 
-  before(() => {
+  beforeEach(() => {
     const initialState =
       { counter: 0
       , filtered: []
@@ -111,7 +111,7 @@ describe('redux-future', () => {
     store.dispatch(filterNumbers());
   });
 
-  it('should work together with IOs', done => {
+  it('should work together with other action types', done => {
     const spy = expect.createSpy()
 
     unsubscribe = store.subscribe(() => {
@@ -132,4 +132,26 @@ describe('redux-future', () => {
     const action = createAction('FUTURE_IO');
     store.dispatch(action(future));
   });
+
+  it('should dispatch other action types correctly on reject', done => {
+    const action = createAction('FUTURE_IO');
+    const spy = expect.createSpy()
+
+    unsubscribe = store.subscribe(() => {
+      expect(store.getState().futureIo).toEqual('errors are bad');
+      expect(spy).toHaveBeenCalled()
+      done();
+    });
+
+    const future = new Future((rej, res) => {
+      const io = IO(() => {
+        spy();
+        return action('errors are bad');
+      });
+
+      setTimeout(() => rej(io), 100);
+    });
+
+    store.dispatch(future);
+  })
 });
